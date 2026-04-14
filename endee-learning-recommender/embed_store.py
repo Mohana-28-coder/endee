@@ -1,5 +1,5 @@
 from sentence_transformers import SentenceTransformer
-import endee
+import faiss
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
