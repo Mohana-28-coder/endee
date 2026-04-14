@@ -1,0 +1,13 @@
+calculus
+integration
+differentiation
+algebra
+linear algebra
+machine learning
+deep learning
+neural networks
+artificial intelligence
+data structures
+algorithms
+probability
+statistics
