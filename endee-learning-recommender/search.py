@@ -1,18 +1,21 @@
 from sentence_transformers import SentenceTransformer
-import endee
+import faiss
+import numpy as np
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-db = endee.Client()
-collection = db.get_collection("learning_topics")
+# Load index
+index = faiss.read_index("topics.index")
+
+# Load topics
+topics = open("topics.txt").read().splitlines()
 
 
 def search_topics(query):
-    query_embedding = model.encode(query).tolist()
+    query_vec = model.encode([query]).astype("float32")
 
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=5
-    )
+    distances, indices = index.search(query_vec, 5)
 
-    return results["documents"][0]
+    results = [topics[i] for i in indices[0]]
+
+    return results
