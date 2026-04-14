@@ -1,20 +1,27 @@
 from sentence_transformers import SentenceTransformer
 import faiss
+import numpy as np
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
 topics = open("data.txt").read().splitlines()
 
-db = endee.Client()
-collection = db.get_or_create_collection("learning_topics")
+# Create embeddings
+embeddings = model.encode(topics)
 
-for i, topic in enumerate(topics):
-    embedding = model.encode(topic).tolist()
+# Convert to numpy
+embeddings = np.array(embeddings).astype("float32")
 
-    collection.add(
-        ids=[str(i)],
-        embeddings=[embedding],
-        documents=[topic]
-    )
+# Create FAISS index
+dimension = embeddings.shape[1]
+index = faiss.IndexFlatL2(dimension)
+index.add(embeddings)
 
-print("✅ Data stored in Endee vector DB")
+# Save data
+faiss.write_index(index, "topics.index")
+
+with open("topics.txt", "w") as f:
+    for t in topics:
+        f.write(t + "\n")
+
+print("✅ FAISS vector DB created successfully")
