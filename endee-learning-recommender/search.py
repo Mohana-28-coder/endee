@@ -1,10 +1,10 @@
 from sentence_transformers import SentenceTransformer
-import endee
+import faiss
 import numpy as np
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# Load index
+# Load FAISS index
 index = faiss.read_index("topics.index")
 
 # Load topics
