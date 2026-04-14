@@ -1,4 +1,4 @@
-# AI Study Topic Recommender using RAG and Endee
+#ai-learning-path-generator
 
 ## 📌 Overview
 
